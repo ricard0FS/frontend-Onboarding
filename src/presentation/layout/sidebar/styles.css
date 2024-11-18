@@ -1,0 +1,74 @@
+.side-menu {
+  background: linear-gradient(180deg, rgb(238, 3, 3), black);
+  width: 200px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 65px;
+  padding-top: 30px; /* Espaço entre o topo da sidebar e navbar  */
+  z-index: 10;
+}
+
+.side-text {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+.side-text a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+.side-menu-items {
+  width: 100%;
+  list-style: none;
+  padding-left: 20px;
+}
+.sidebar-link {
+  text-decoration: none; /* Remove o sublinhado do link */
+  color: inherit; /* Herda a cor do texto pai */
+  display: flex; /* Garante que o ícone e o texto fiquem alinhados */
+  align-items: center; /* Centraliza verticalmente o conteúdo */
+}
+span {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.side-header {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  color: #ffffff;
+}
+
+.side-header-center {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.icon-home {
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  color: #ffffff;
+  padding-bottom: 30px;
+}

@@ -1,0 +1,48 @@
+.document {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.document-row {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  width: calc(25% - 10px);
+  box-sizing: border-box;
+}
+
+.document-row span {
+  margin-right: 10px;
+}
+
+@media (max-width: 1200px) {
+  .document-row {
+    width: calc(33.33% - 10px);
+  }
+}
+
+.table-footer {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.legend-item svg {
+  margin-right: 5px;
+}
+
+.document-row {
+  padding: 8px;
+}
+[class*="gOAnHZ"] {
+  min-width: unset !important;
+}

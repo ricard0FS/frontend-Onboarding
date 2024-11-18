@@ -1,0 +1,115 @@
+.required-fields {
+  font-size: 0.9rem;
+  color: red;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 30px;
+}
+
+.row > div,
+.file-upload {
+  flex: 1;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.file-upload {
+  margin-top: 15px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-upload label {
+  display: inline-block;
+  background-color: #c72334;
+  color: #fff;
+  padding: 14px 30px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.file-upload label:hover {
+  background-color: #b02b36;
+}
+
+.file-list-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.file-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.file-check-icon {
+  color: green;
+  margin-left: 10px;
+  font-size: 1.6rem;
+}
+
+.file-item button {
+  width: 100px;
+  background-color: #ca2e3e;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.file-item button:hover {
+  background-color: #a2262e;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: #010101;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-group button:hover {
+  opacity: 0.9;
+  background-color: #242323;
+}
+
+.upload-instructions {
+  font-size: 0.9rem;
+  color: #5f5d5d;
+  text-align: center;
+  margin-top: 5px;
+}
+.no-scroll {
+  overflow: hidden;
+}

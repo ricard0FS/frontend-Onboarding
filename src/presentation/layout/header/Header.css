@@ -1,0 +1,12 @@
+.header {
+  background-color: rgb(43, 40, 40);
+  height: 65px;
+  width: 100%; /* largura */
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 4px 8px rgba(0.5, 0.5, 0.5, 0.5);
+  z-index: 11;
+}

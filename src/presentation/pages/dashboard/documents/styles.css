@@ -1,0 +1,202 @@
+.table {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: white;
+  margin-top: 16px;
+  max-width: 100%;
+  overflow: auto;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.table.no-border {
+  border: none;
+  padding: 0;
+}
+
+.table .rdt_TableBody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table .rdt_TableBody::-webkit-scrollbar {
+  width: 8px;
+}
+.table .rdt_TableBody::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 4px;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #134dc9;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 8px;
+  border-top: 1px solid #ccc;
+}
+
+.action-buttons {
+  margin-top: 17px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.action-icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.add-icon {
+  color: #13c913;
+}
+
+.action-icon:hover {
+  color: #007bff;
+}
+
+.trash-icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.trash-icon:hover {
+  color: #ec2409;
+}
+
+.legend {
+  margin-top: 17px;
+  display: flex;
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.legend-item svg {
+  margin-right: 4px;
+}
+
+/*CheckBox Header tabela de Docuementos */
+[class*="hQzLLX"] {
+  padding-left: 11px !important;
+}
+
+/* Modal Excluir*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal h3 {
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-actions button:first-child {
+  background-color: #8f8c8c;
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background-color: #ec2409;
+  color: white;
+}
+.error-message {
+  color: red;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* Modal Adcionar */
+.modalAdd-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalAdd {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 800px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1800px) {
+  .modalAdd {
+    width: 90%;
+    max-width: 700px;
+  }
+}
+
+.close-modalAdd-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.close-modalAdd-btn:hover {
+  background-color: #d32f2f;
+}
+
+.modal-btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-btn button {
+  background-color: #010101;
+  color: white;
+}
