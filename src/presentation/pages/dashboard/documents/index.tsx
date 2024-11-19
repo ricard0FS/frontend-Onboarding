@@ -32,17 +32,6 @@ const documents: Document[] = [
   { id: 8, name: "Documento 08", status: "valid" },
   { id: 9, name: "Documento 09", status: "outdated" },
   { id: 10, name: "Documento 10", status: "valid" },
-  { id: 11, name: "Documento 11", status: "valid" },
-  { id: 12, name: "Documento 12", status: "valid" },
-  { id: 13, name: "Documento 13", status: "valid" },
-  { id: 14, name: "Documento 14", status: "valid" },
-  { id: 15, name: "Documento 15", status: "valid" },
-  { id: 16, name: "Documento 16", status: "invalid" },
-  { id: 17, name: "Documento 17", status: "valid" },
-  { id: 18, name: "Documento 18", status: "outdated" },
-  { id: 19, name: "Documento 19", status: "invalid" },
-  { id: 20, name: "Documento 20", status: "valid" },
-  { id: 21, name: "Documento 21", status: "outdated" },
 ];
 
 const columns: TableColumn<Document>[] = [
@@ -109,22 +98,19 @@ const DocumentComponent: React.FC = () => {
     setErrorMessage("");
   };
 
-  const validateSelection = (action: () => void) => {
+  const validateSelection = (action: () => void, allowMultiple = false) => {
     if (selectedDocuments.length === 0) {
       setErrorMessage(
         "Por favor, selecione pelo menos um documento antes de prosseguir."
       );
+    } else if (!allowMultiple && selectedDocuments.length > 1) {
+      setErrorMessage("Selecione apenas um documento para esta ação.");
     } else {
       setErrorMessage("");
       action();
     }
   };
 
-  const handleDelete = () => {
-    if (selectedDocuments.length > 0) {
-      setDocumentToDelete(selectedDocuments[0]);
-    }
-  };
   const handleConfirmDelete = () => {
     if (documentToDelete) {
       const updatedDocuments = documents.filter(
@@ -146,6 +132,7 @@ const DocumentComponent: React.FC = () => {
   const handleCloseModal = () => {
     setIsAddFormVisible(false);
   };
+
   const handleConfirm = () => {
     console.log("Documento confirmado");
   };
@@ -189,20 +176,23 @@ const DocumentComponent: React.FC = () => {
                 title="Adicionar Documento"
                 onClick={handleAddDocument}
               />
-              <FaTrashAlt
-                className="trash-icon"
-                title="Excluir"
-                onClick={() => validateSelection(handleDelete)}
-              />
+              <FaTrashAlt className="trash-icon" title="Excluir" />
               <FaUpload
                 className="action-icon"
                 title="Upload"
-                onClick={() => validateSelection(() => console.log("Upload"))}
+                onClick={() =>
+                  validateSelection(() => console.log("Upload realizado"))
+                }
               />
               <FaDownload
                 className="action-icon"
                 title="Download"
-                onClick={() => validateSelection(() => console.log("Download"))}
+                onClick={() =>
+                  validateSelection(
+                    () => console.log("Download realizado"),
+                    true
+                  )
+                }
               />
             </div>
             <div className="legend">
@@ -210,7 +200,7 @@ const DocumentComponent: React.FC = () => {
                 <FaCheckCircle color="green" size={20} /> Documento Válido
               </div>
               <div className="legend-item">
-                <FaTimesCircle color="red" size={20} /> Documento Inválido
+                <FaTimesCircle color="red" size={20} /> Documento Pendente
               </div>
               <div className="legend-item">
                 <FaExclamationTriangle color="orange" size={20} /> Documento

@@ -15,6 +15,7 @@ interface InputProps {
   options?: Option[];
   value?: string;
   defaultValue?: string | number;
+  disabled?: boolean;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
@@ -28,6 +29,7 @@ const Input: React.FC<InputProps> = ({
   defaultValue,
   name,
   value,
+  disabled,
 }) => {
   return (
     <Box
@@ -63,6 +65,7 @@ const Input: React.FC<InputProps> = ({
         defaultValue={defaultValue}
         name={name}
         value={value}
+        disabled={disabled}
       >
         {select && options
           ? options.map((option) => (

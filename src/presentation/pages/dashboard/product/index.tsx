@@ -117,7 +117,7 @@ const ProductComponent: React.FC = () => {
             <FaCheckCircle color="green" size={20} /> Documento Válido
           </div>
           <div className="legend-item">
-            <FaTimesCircle color="red" size={20} /> Documento Inválido
+            <FaTimesCircle color="red" size={20} /> Documento Pendente
           </div>
           <div className="legend-item">
             <FaExclamationTriangle color="orange" size={20} /> Documento

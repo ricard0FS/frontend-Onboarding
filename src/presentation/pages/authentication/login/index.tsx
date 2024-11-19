@@ -17,17 +17,14 @@ function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); // Limpa o erro antes de tentar o login
+    setError(null);
 
     try {
-      // Realiza a requisição para o endpoint de login
       const response = await axios.post(ENDPOINTS.LOGIN, { email, password });
 
-      // Captura o token da resposta e armazena no localStorage
       const token = response.data.token;
       localStorage.setItem(STORAGE.AUTH_KEY, token);
 
-      // Redirecionar ou mostrar sucesso (ajuste conforme a lógica de sua aplicação)
       console.log("Login realizado com sucesso!");
     } catch (err) {
       console.error("Erro no login:", err);
