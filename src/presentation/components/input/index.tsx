@@ -13,12 +13,15 @@ interface InputProps {
   placeholder?: string;
   select?: boolean;
   options?: Option[];
-  value?: string;
+  value?: string | null;
   defaultValue?: string | number;
   disabled?: boolean;
   onChange?: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => void;
+  classname?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -30,6 +33,8 @@ const Input: React.FC<InputProps> = ({
   name,
   value,
   disabled,
+  onChange,
+  classname,
 }) => {
   return (
     <Box
@@ -66,6 +71,8 @@ const Input: React.FC<InputProps> = ({
         name={name}
         value={value}
         disabled={disabled}
+        onChange={onChange}
+        className={classname}
       >
         {select && options
           ? options.map((option) => (

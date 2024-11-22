@@ -5,7 +5,7 @@ export const ROUTERS = {
     },
     CLIENTS: {
       LIST: "/clients",
-      DETAIL: "/clients/detail/:codCliente",
+      DETAIL: "/clients/detail/:cnpjCliente",
     },
   },
 };

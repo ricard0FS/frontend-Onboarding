@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DataTable, { TableStyles } from "react-data-table-component";
+import api from "../../../../services/api";
 import {
   FaCheckCircle,
   FaTimesCircle,
@@ -7,35 +8,46 @@ import {
 } from "react-icons/fa";
 import "./styles.css";
 
-const produtosMock = [
-  {
-    id: 1,
-    nome: "Permite",
-    documentos: [
-      { nome: "DOC 1", status: "valid" },
-      { nome: "DOC 2", status: "outdated" },
-      { nome: "DOC 3", status: "invalid" },
-      { nome: "DOC 4", status: "valid" },
-      { nome: "DOC 5", status: "outdated" },
-      { nome: "DOC 6", status: "invalid" },
-      { nome: "DOC 7", status: "valid" },
-      { nome: "DOC 8", status: "outdated" },
-      { nome: "DOC 9", status: "invalid" },
-    ],
-    contratado: false,
-  },
-  {
-    id: 2,
-    nome: "Programa Acelere",
-    documentos: [
-      { nome: "DOC 1", status: "valid" },
-      { nome: "DOC 2", status: "valid" },
-    ],
-    contratado: true,
-  },
-];
-
 const ProductComponent: React.FC = () => {
+  const [produtos, setProdutos] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const cnpjCliente = "00685368000211"; // tornar dinâmico
+        const response = await api.post(
+          "/api/documents/findCustomerDocuments",
+          {
+            cnpjCliente,
+          }
+        );
+
+        const { produtosSituacao } = response.data;
+
+        const formattedProdutos = produtosSituacao.map((produto: any) => ({
+          id: produto.nomePrograma,
+          nome: produto.nomePrograma,
+          contratado: produto.situacao,
+          documentos: Object.entries(
+            produto.documentosSituacao as Record<string, boolean>
+          ).map(([nome, situacao]) => ({
+            nome,
+            status: situacao ? "valid" : "invalid",
+          })),
+        }));
+
+        setProdutos(formattedProdutos);
+      } catch (error) {
+        console.error("Erro ao buscar os documentos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
   const columns = [
     {
       name: "Produto",
@@ -87,30 +99,34 @@ const ProductComponent: React.FC = () => {
   return (
     <div>
       <form className="filter-form">
-        <DataTable
-          columns={columns}
-          data={produtosMock}
-          customStyles={customStyles}
-          expandableRows
-          expandableRowsComponent={({ data }) => (
-            <div className="document">
-              {data.documentos.map((doc: any) => (
-                <div key={doc.nome} className="document-row">
-                  <span>{doc.nome}</span>
-                  {doc.status === "valid" && (
-                    <FaCheckCircle color="green" size={20} />
-                  )}
-                  {doc.status === "invalid" && (
-                    <FaTimesCircle color="red" size={20} />
-                  )}
-                  {doc.status === "outdated" && (
-                    <FaExclamationTriangle color="orange" size={20} />
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        />
+        {loading ? (
+          <p>Carregando...</p>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={produtos}
+            customStyles={customStyles}
+            expandableRows
+            expandableRowsComponent={({ data }) => (
+              <div className="document">
+                {data.documentos.map((doc: any) => (
+                  <div key={doc.nome} className="document-row">
+                    <span>{doc.nome}</span>
+                    {doc.status === "valid" && (
+                      <FaCheckCircle color="green" size={20} />
+                    )}
+                    {doc.status === "invalid" && (
+                      <FaTimesCircle color="red" size={20} />
+                    )}
+                    {doc.status === "outdated" && (
+                      <FaExclamationTriangle color="orange" size={20} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          />
+        )}
 
         <div className="table-footer">
           <div className="legend-item">
