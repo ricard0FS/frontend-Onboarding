@@ -93,7 +93,7 @@ function DetailClientPage() {
       ) : (
         <section className="contentDetail">
           <div className="filter-form">
-            <BackButton />
+            <BackButton backRoute="*" />
             <h1>Detalhes do Cliente</h1>
 
             <div className="divider">

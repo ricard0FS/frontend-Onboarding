@@ -61,7 +61,7 @@
   min-width: 250px;
 }
 input:disabled {
-  background-color: #f3f2f2d2;
+  background-color: #fcfbfbd2;
   border: none;
 }
 .divider {

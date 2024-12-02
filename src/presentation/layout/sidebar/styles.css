@@ -38,10 +38,10 @@
   padding-left: 20px;
 }
 .sidebar-link {
-  text-decoration: none; /* Remove o sublinhado do link */
-  color: inherit; /* Herda a cor do texto pai */
-  display: flex; /* Garante que o ícone e o texto fiquem alinhados */
-  align-items: center; /* Centraliza verticalmente o conteúdo */
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
 }
 span {
   margin-left: 10px;

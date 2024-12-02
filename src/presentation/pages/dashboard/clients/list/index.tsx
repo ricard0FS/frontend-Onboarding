@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -6,6 +6,7 @@ import Input from "../../../../components/input";
 import DataTable, { TableStyles } from "react-data-table-component";
 import { IoEyeOutline } from "react-icons/io5";
 import api from "../../../../../services/api";
+import { toast } from "react-toastify";
 
 interface ClientData {
   id_cliente: number;
@@ -27,7 +28,15 @@ function ListClientPage() {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalRows, setTotalRows] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const isFiltered =
+    filters.razaoSocial ||
+    filters.cnpjCliente ||
+    filters.codigoCliente ||
+    filters.filial;
 
   const columns = [
     {
@@ -103,55 +112,54 @@ function ListClientPage() {
     },
   };
 
-  const fetchFilteredClients = async () => {
+  const fetchClients = async () => {
     setIsLoading(true);
-
-    const hasActiveFilters = Object.values(filters).some(
-      (value) => value.trim() !== ""
-    );
 
     try {
       let response;
 
-      const sanitizedFilters = {
-        razaoSocial: filters.razaoSocial.trim() || null,
-        cnpjCliente: filters.cnpjCliente.trim() || null,
-        codigoCliente: filters.codigoCliente.trim() || null,
-        filial: filters.filial.trim() || null,
-      };
+      if (isFiltered) {
+        response = await api.post("/api/customer/findCustomer", {
+          razaoSocial: filters.razaoSocial.trim() || undefined,
+          cnpjCliente: filters.cnpjCliente.trim() || undefined,
+          codigoCliente: filters.codigoCliente.trim() || undefined,
+          filial: filters.filial.trim() || undefined,
+        });
 
-      console.log("Enviando dados para a API (findCliente):", sanitizedFilters);
-
-      if (hasActiveFilters) {
-        response = await api.post("/api/client/findCliente", sanitizedFilters);
+        const data = response.data;
+        setClients(Array.isArray(data) ? data : [data]);
+        setTotalRows(Array.isArray(data) ? data.length : 1);
       } else {
-        console.log("Enviando dados para a API (findAll):", filters);
-        response = await api.get("/api/client/findAll");
+        response = await api.get("/api/customer/findAll", {
+          params: {
+            page: currentPage - 1,
+            size: rowsPerPage,
+          },
+        });
+
+        const data = response.data;
+        setClients(data?.content || []);
+        setTotalRows(data?.totalElements || 0);
       }
-
-      console.log("Resposta da API:", response.data);
-
-      const responseData = response.data.content || [response.data];
-
-      if (Array.isArray(responseData)) {
-        setClients(responseData);
-      } else if (responseData && typeof responseData === "object") {
-        setClients([responseData]);
-      } else {
-        console.error("Resposta inesperada da API:", responseData);
-        setClients([]);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar clientes:", error);
-      setClients([]);
+    } catch (error: any) {
+      toast.error("Erro ao carregar clientes. Tente novamente.", {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchClients();
+  }, [currentPage, rowsPerPage]); // Refetch ao mudar página ou linhas por página
+
   const handleFilterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchFilteredClients();
+    setCurrentPage(1); // Resetar para a primeira página ao filtrar
+    setHasSearched(true); // Indica que a pesquisa foi realizada
+    fetchClients();
   };
 
   return (
@@ -199,9 +207,6 @@ function ListClientPage() {
                 { value: "", label: "Todos" },
                 { value: "Filial 1", label: "Filial 1" },
                 { value: "Filial 2", label: "Filial 2" },
-                { value: "Filial 3", label: "Filial 3" },
-                { value: "Filial 4", label: "Filial 4" },
-                { value: "Filial 5", label: "Filial 5" },
               ]}
             />
           </div>
@@ -221,50 +226,64 @@ function ListClientPage() {
               Limpar Filtros
             </button>
             <button type="submit" className="btn-submit">
-              Filtrar
+              Pesquisar
             </button>
           </div>
         </form>
 
         <div className="table">
           <h2>Relatório de Contas</h2>
-          {isLoading ? (
+
+          {/* Condicionalmente renderizando a tabela ou a mensagem */}
+          {hasSearched ? (
+            isLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: "300px", // Ajuste o valor conforme necessário
+                }}
+              >
+                <CircularProgress style={{ color: "red" }} size={80} />
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={clients}
+                pagination={!isFiltered} // Paginação apenas para listagem geral
+                paginationServer={!isFiltered} // Apenas para API GET
+                paginationTotalRows={!isFiltered ? totalRows : undefined}
+                paginationPerPage={rowsPerPage}
+                paginationDefaultPage={currentPage}
+                onChangeRowsPerPage={(newRowsPerPage) =>
+                  setRowsPerPage(newRowsPerPage)
+                }
+                onChangePage={(newPage) => setCurrentPage(newPage)}
+                customStyles={customStyles}
+                noDataComponent={
+                  <div
+                    style={{
+                      textAlign: "center",
+                      color: "#000",
+                      padding: "20px",
+                    }}
+                  >
+                    Nenhum registro encontrado, faça uma nova pesquisa.
+                  </div>
+                }
+              />
+            )
+          ) : (
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
+                textAlign: "center",
+                color: "#000",
+                padding: "20px",
               }}
             >
-              <CircularProgress />
+              Faça uma pesquisa para ver os resultados.
             </div>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={clients}
-              pagination
-              paginationServer
-              paginationTotalRows={clients.length}
-              paginationPerPage={rowsPerPage}
-              paginationDefaultPage={currentPage}
-              onChangeRowsPerPage={(newRowsPerPage) => {
-                setRowsPerPage(newRowsPerPage);
-                setCurrentPage(1);
-              }}
-              onChangePage={(newPage) => setCurrentPage(newPage)}
-              customStyles={customStyles}
-              noDataComponent={
-                <div
-                  style={{
-                    textAlign: "center",
-                    color: "#000",
-                    padding: "20px",
-                  }}
-                >
-                  Nenhum registro encontrado, faça uma nova pesquisa.
-                </div>
-              }
-            />
           )}
         </div>
       </section>

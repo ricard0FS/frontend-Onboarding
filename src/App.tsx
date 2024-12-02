@@ -12,12 +12,15 @@ import {
 import Footer from "./presentation/layout/footer";
 import Sidebar from "./presentation/layout/sidebar";
 import DetailClientPage from "./presentation/pages/dashboard/clients/detail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { DASHBOARD } = ROUTERS;
 
 function App() {
   return (
     <Router>
+      <ToastContainer />
       <div className="app">
         <Header />
         <Sidebar />
